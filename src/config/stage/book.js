@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-05 10:27:46
+ * @LastEditTime: 2020-03-05 10:50:09
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \lin-cms-vue\src\config\stage\book.js
+ */
 const bookRouter = {
   route: null,
   name: null,
