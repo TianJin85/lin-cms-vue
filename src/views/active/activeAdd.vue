@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-05 10:47:36
- * @LastEditTime: 2020-03-14 14:16:29
+ * @LastEditTime: 2020-03-14 14:40:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \lin-cms-vue\src\views\active\activeAdd.vue
@@ -11,23 +11,33 @@
     <div class="lin-title">发布活动</div>
     <el-form :model="form" status-icon ref="form" label-width="110px" v-loading="loading" @submit.native.prevent>
       <el-form-item label="活动名称" prop="title">
-        <el-input size="medium" v-model="form.title" placeholder="请填写活动名称"></el-input>
+        <el-input size="medium" v-model="form.name" placeholder="请填写活动名称"></el-input>
       </el-form-item>
       <el-form-item label="活动地址" prop="address">
         <el-input size="medium" v-model="form.address" placeholder="请填写活动地址"></el-input>
       </el-form-item>
       <el-form-item label="活动简介" prop="summary">
-        <el-input size="medium" type="textarea" :rows="4" placeholder="请输入活动简介" v-model="form.summary">
+        <el-input size="medium" type="textarea" :rows="4" placeholder="请输入活动简介" v-model="form.testarea">
         </el-input>
+      </el-form-item>
+      <el-form-item label="活动时间" prop="summary">
+        <!-- <el-input size="medium" placeholder="请输入活动时间" v-model="form.date"> </el-input> -->
+        <el-date-picker
+          v-model="form.date"
+          type="datetimerange"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
       </el-form-item>
       <el-form-item label="活动规则" prop="summary">
         <el-input size="medium" placeholder="请输入活动规则" v-model="form.rule"> </el-input>
       </el-form-item>
       <el-form-item label="其他信息" prop="summary">
-        <el-input size="medium" placeholder="请输入其他信息" v-model="form.other"> </el-input>
+        <el-input size="medium" placeholder="请输入其他信息" v-model="form.message"> </el-input>
       </el-form-item>
       <el-form-item label="发起人" prop="summary">
-        <el-input size="medium" placeholder="请输入发起人" v-model="form.user"> </el-input>
+        <el-input size="medium" placeholder="请输入发起人" v-model="form.initiator"> </el-input>
       </el-form-item>
       <el-form-item label="活动收费金额" prop="summary">
         <el-input size="medium" type="number" placeholder="请输入活动收费金额" v-model="form.money"> </el-input>
@@ -35,7 +45,7 @@
       <el-form-item label="报名次数" prop="summary">
         <el-input size="medium" type="number" placeholder="请输入报名次数" v-model="form.number"> </el-input>
       </el-form-item>
-      <el-form-item label="上传图片">
+      <el-form-item label="上传活动封面图片">
         <upload-imgs ref="uploadEle" :rules="rules" :multiple="true" />
         <div><el-button @click="getValue('uploadEle')">获取当前图像数据</el-button></div>
       </el-form-item>
@@ -57,13 +67,14 @@ export default {
     return {
       text: 'this is default content',
       form: {
-        title: '',
+        name: '',
         address: '',
-        summary: '',
-        image: '',
+        testarea: '',
+        date: '',
+        images: '',
         rule: '',
-        other: '',
-        user: '',
+        message: '',
+        initiator: '',
         money: '',
         number: '',
         remark: '',
@@ -86,9 +97,7 @@ export default {
     },
     async submitForm() {
       var img = await this.$refs['uploadEle'].getValue()
-      console.log(img[0])
-      this.form.image = img[0].src
-      console.log(this.form)
+      this.form.images = img[0].src
       const res = await book.addmanage(this.form)
       if (res.error_code === 0) {
         this.$message.success(`${res.msg}`)
@@ -100,7 +109,6 @@ export default {
     },
     async getValue(name) {
       var img = await this.$refs[name].getValue()
-      console.log(img[0])
       // eslint-disable-next-line
       // alert('已获取数据, 打印在控制台中')
     },
