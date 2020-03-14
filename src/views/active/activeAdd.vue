@@ -1,33 +1,108 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-05 10:47:36
- * @LastEditTime: 2020-03-05 11:04:57
- * @LastEditors: your name
+ * @LastEditTime: 2020-03-14 14:16:29
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \lin-cms-vue\src\views\active\activeAdd.vue
  -->
 <template>
   <div class="lin-container">
     <div class="lin-title">发布活动</div>
-    <div class="lin-wrap"><tinymce @change="change" upload_url="http://dev.lin.colorful3.com/cms/file/" /></div>
+    <el-form :model="form" status-icon ref="form" label-width="110px" v-loading="loading" @submit.native.prevent>
+      <el-form-item label="活动名称" prop="title">
+        <el-input size="medium" v-model="form.title" placeholder="请填写活动名称"></el-input>
+      </el-form-item>
+      <el-form-item label="活动地址" prop="address">
+        <el-input size="medium" v-model="form.address" placeholder="请填写活动地址"></el-input>
+      </el-form-item>
+      <el-form-item label="活动简介" prop="summary">
+        <el-input size="medium" type="textarea" :rows="4" placeholder="请输入活动简介" v-model="form.summary">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="活动规则" prop="summary">
+        <el-input size="medium" placeholder="请输入活动规则" v-model="form.rule"> </el-input>
+      </el-form-item>
+      <el-form-item label="其他信息" prop="summary">
+        <el-input size="medium" placeholder="请输入其他信息" v-model="form.other"> </el-input>
+      </el-form-item>
+      <el-form-item label="发起人" prop="summary">
+        <el-input size="medium" placeholder="请输入发起人" v-model="form.user"> </el-input>
+      </el-form-item>
+      <el-form-item label="活动收费金额" prop="summary">
+        <el-input size="medium" type="number" placeholder="请输入活动收费金额" v-model="form.money"> </el-input>
+      </el-form-item>
+      <el-form-item label="报名次数" prop="summary">
+        <el-input size="medium" type="number" placeholder="请输入报名次数" v-model="form.number"> </el-input>
+      </el-form-item>
+      <el-form-item label="上传图片">
+        <upload-imgs ref="uploadEle" :rules="rules" :multiple="true" />
+        <div><el-button @click="getValue('uploadEle')">获取当前图像数据</el-button></div>
+      </el-form-item>
+      <div class="lin-wrap"><tinymce @change="change" upload_url="http://dev.lin.colorful3.com/cms/file/" /></div>
+      <el-form-item class="submit">
+        <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+        <el-button @click="resetForm('form')">重 置</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
 import Tinymce from '@/components/base/tinymce'
-
+import book from '@/models/book'
+import UploadImgs from '@/components/base/upload-imgs'
 export default {
   data() {
     return {
       text: 'this is default content',
+      form: {
+        title: '',
+        address: '',
+        summary: '',
+        image: '',
+        rule: '',
+        other: '',
+        user: '',
+        money: '',
+        number: '',
+        remark: '',
+      },
+      loading: false,
+      rules: {
+        minWidth: 100,
+        minHeight: 100,
+        maxSize: 1,
+      },
     }
   },
   components: {
     Tinymce,
+    UploadImgs,
   },
   methods: {
     change(val) {
-      console.log(val)
+      this.form.remark = val
+    },
+    async submitForm() {
+      var img = await this.$refs['uploadEle'].getValue()
+      console.log(img[0])
+      this.form.image = img[0].src
+      console.log(this.form)
+      const res = await book.addmanage(this.form)
+      if (res.error_code === 0) {
+        this.$message.success(`${res.msg}`)
+      }
+    },
+    // 重置表单
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+    },
+    async getValue(name) {
+      var img = await this.$refs[name].getValue()
+      console.log(img[0])
+      // eslint-disable-next-line
+      // alert('已获取数据, 打印在控制台中')
     },
   },
 }

@@ -33,6 +33,11 @@ class Book {
     const res = await get('v1/book', { handleError: true })
     return res
   }
+
+  async addmanage(data) {
+    const res = await post('back/wechat/manage', data, { handleError: true })
+    return res
+  }
 }
 
 export default new Book()
