@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-05 10:47:36
- * @LastEditTime: 2020-03-14 14:40:10
+ * @LastEditTime: 2020-03-14 14:48:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \lin-cms-vue\src\views\active\activeAdd.vue
@@ -42,9 +42,9 @@
       <el-form-item label="活动收费金额" prop="summary">
         <el-input size="medium" type="number" placeholder="请输入活动收费金额" v-model="form.money"> </el-input>
       </el-form-item>
-      <el-form-item label="报名次数" prop="summary">
-        <el-input size="medium" type="number" placeholder="请输入报名次数" v-model="form.number"> </el-input>
-      </el-form-item>
+      <!-- <el-form-item label="报名次数" prop="summary">
+        <el-input size="medium" type="number" placeholder="请输入报名次数" v-model="form.num"> </el-input>
+      </el-form-item> -->
       <el-form-item label="上传活动封面图片">
         <upload-imgs ref="uploadEle" :rules="rules" :multiple="true" />
         <div><el-button @click="getValue('uploadEle')">获取当前图像数据</el-button></div>
@@ -76,7 +76,7 @@ export default {
         message: '',
         initiator: '',
         money: '',
-        number: '',
+        num: '',
         remark: '',
       },
       loading: false,
