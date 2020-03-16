@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-05 10:47:36
- * @LastEditTime: 2020-03-14 14:48:30
+ * @LastEditTime: 2020-03-16 11:52:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \lin-cms-vue\src\views\active\activeAdd.vue
@@ -16,10 +16,10 @@
       <el-form-item label="活动地址" prop="address">
         <el-input size="medium" v-model="form.address" placeholder="请填写活动地址"></el-input>
       </el-form-item>
-      <el-form-item label="活动简介" prop="summary">
+      <!-- <el-form-item label="活动简介" prop="summary">
         <el-input size="medium" type="textarea" :rows="4" placeholder="请输入活动简介" v-model="form.testarea">
         </el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="活动时间" prop="summary">
         <!-- <el-input size="medium" placeholder="请输入活动时间" v-model="form.date"> </el-input> -->
         <el-date-picker
@@ -49,7 +49,9 @@
         <upload-imgs ref="uploadEle" :rules="rules" :multiple="true" />
         <div><el-button @click="getValue('uploadEle')">获取当前图像数据</el-button></div>
       </el-form-item>
-      <div class="lin-wrap"><tinymce @change="change" upload_url="http://dev.lin.colorful3.com/cms/file/" /></div>
+      <el-form-item label="活动简介">
+        <div class="lin-wrap"><tinymce @change="change" upload_url="http://dev.lin.colorful3.com/cms/file/" /></div>
+      </el-form-item>
       <el-form-item class="submit">
         <el-button type="primary" @click="submitForm('form')">保 存</el-button>
         <el-button @click="resetForm('form')">重 置</el-button>
@@ -77,7 +79,6 @@ export default {
         initiator: '',
         money: '',
         num: '',
-        remark: '',
       },
       loading: false,
       rules: {
@@ -93,7 +94,7 @@ export default {
   },
   methods: {
     change(val) {
-      this.form.remark = val
+      this.form.testarea = val
     },
     async submitForm() {
       var img = await this.$refs['uploadEle'].getValue()
