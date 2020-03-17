@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-05 10:47:36
- * @LastEditTime: 2020-03-16 11:52:00
+ * @LastEditTime: 2020-03-17 11:54:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \lin-cms-vue\src\views\active\activeAdd.vue
@@ -102,6 +102,8 @@ export default {
       const res = await book.addmanage(this.form)
       if (res.error_code === 0) {
         this.$message.success(`${res.msg}`)
+      } else {
+        this.$message.error(`${res.msg}`)
       }
     },
     // 重置表单
